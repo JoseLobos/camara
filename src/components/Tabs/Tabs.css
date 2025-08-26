@@ -16,10 +16,10 @@
   transition: all 0.2s ease;
 }
 .tab.active {
-  background-color: #fff3d8;
-  color: #333;
-}
-.tab:not(.active) {
   background-color: #003049;
   color: white;
+}
+.tab:not(.active) {
+  background-color: #fff3d8;
+  color: #003049;
 }
