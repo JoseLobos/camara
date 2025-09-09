@@ -112,10 +112,6 @@ const VideoGrid = () => {
 
   const grouped = groupVideos(videos);
 
-  // filtering by type
-  const TYPES = ['Todos', 'Movimiento', 'Alerta', 'Programada', 'Clip'];
-  const [filter, setFilter] = React.useState('Todos');
-
   // collapsed state per group
   const [collapsed, setCollapsed] = React.useState({});
 
@@ -131,18 +127,12 @@ const VideoGrid = () => {
 
   return (
     <div className="video-grid">
-      <div className="filter-bar">
-        {TYPES.map(t => (
-          <button key={t} className={`filter-button ${filter === t ? 'active' : ''}`} onClick={() => setFilter(t)}>{t}</button>
-        ))}
-      </div>
-
       {loading && <p>Cargando videos...</p>}
       {error && <p className="error">Error al cargar videos: {error}</p>}
 
       {!loading && !error && (
         Object.entries(grouped).map(([title, items]) => {
-          const filtered = items.filter(matchesFilter);
+          const filtered = items; // no filter bar — show all
           if (!filtered || filtered.length === 0) return null;
           const isCollapsed = !!collapsed[title];
           return (

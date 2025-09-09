@@ -30,30 +30,7 @@
   cursor: pointer;
 }
 
-.filter-bar {
-  display: flex;
-  gap: 8px;
-  margin: 0 0 12px 0;
-  align-items: center;
-  /* stick to top of scrolling container */
-  position: sticky;
-  top: 0;
-  background: rgba(255,255,255,0.96);
-  padding: 8px 8px;
-  z-index: 50;
-}
-.filter-button {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  background: white;
-  cursor: pointer;
-}
-.filter-button.active {
-  background: #0366d6;
-  color: white;
-  border-color: #0366d6;
-}
+
 @media (max-width: 768px) {
   .video-grid {
     grid-template-columns: 1fr;
