@@ -28,7 +28,11 @@ const VideoCard = ({
   };
   return <div className="video-card">
       <div className="video-thumbnail">
-        <img src={image} alt={location} />
+        {data.video ? (
+          <video src={data.video} controls preload="metadata" poster={image} />
+        ) : (
+          <img src={image} alt={location} />
+        )}
         <span className={`video-type ${getTypeClass()}`}>{type}</span>
       </div>
       <div className="video-info">
