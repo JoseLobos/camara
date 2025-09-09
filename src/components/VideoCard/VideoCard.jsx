@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ClockIcon, EyeIcon } from 'lucide-react';
 import './VideoCard.css';
 const VideoCard = ({
@@ -26,10 +26,40 @@ const VideoCard = ({
         return '';
     }
   };
+  // lazy-load video src when card becomes visible
+  const videoRef = useRef(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!data.video) return;
+    const el = videoRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      // no IntersectionObserver support — load immediately
+      setLoaded(true);
+      return;
+    }
+    let mounted = true;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && mounted) {
+          setLoaded(true);
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+    io.observe(el);
+    return () => { mounted = false; io.disconnect(); };
+  }, [data.video]);
+
   return <div className="video-card">
-      <div className="video-thumbnail">
+      <div className="video-thumbnail" ref={videoRef}>
         {data.video ? (
-          <video src={data.video} controls preload="metadata" poster={image} />
+          loaded ? (
+            <video src={data.video} controls preload="metadata" poster={image} />
+          ) : (
+            // placeholder shows poster until video is loaded
+            <img className="lazy-poster" src={image} alt={location} />
+          )
         ) : (
           <img src={image} alt={location} />
         )}
