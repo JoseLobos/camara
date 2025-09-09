@@ -6,9 +6,25 @@
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-.video-clips h2 { margin-top: 0; font-size: 1.1rem; }
-.video-clips table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-.video-clips th, .video-clips td { padding: 6px 8px; border-bottom: 1px solid #edf2f7; text-align: left; }
-.video-clips tbody tr:hover { background: #f7fafc; }
+.video-clips-summary .summary-card {
+  background: white;
+  border-radius: 8px;
+  padding: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.video-clips-summary .summary-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.summary-title { font-weight:700; font-size:16px; }
+.summary-sub { color:#666; font-size:13px }
+.summary-count { font-size:20px; font-weight:700; color:#0366d6 }
+.summary-meta { color:#444; font-size:13px }
+.summary-actions { margin-top:8px }
+.btn-link { color:#0366d6; text-decoration: none; }
 .video-clips .error { color: #b91c1c; font-size: 0.85rem; margin-top: 8px; }
 .video-clips .empty { font-size: 0.85rem; color: #4a5568; }

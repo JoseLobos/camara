@@ -21,7 +21,10 @@ export const VideoClips: React.FC = () => {
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json();
         if (active) {
-          setVideos(data.videos || []);
+          const list = data.videos || [];
+          // sort descending by mtime
+          list.sort((a: VideoItem, b: VideoItem) => new Date(b.mtime).getTime() - new Date(a.mtime).getTime());
+          setVideos(list);
         }
       } catch (e: any) {
         if (active) setError(e.message);
@@ -32,44 +35,27 @@ export const VideoClips: React.FC = () => {
     return () => { active = false; };
   }, []);
 
-  const formatSize = (bytes: number) => {
-    if (bytes < 1024) return bytes + ' B';
-    const units = ['KB','MB','GB','TB'];
-    let v = bytes / 1024; let i = 0;
-    while (v >= 1024 && i < units.length - 1) { v /= 1024; i++; }
-    return v.toFixed(1) + ' ' + units[i];
-  };
+  const latest = videos.length > 0 ? new Date(videos[0].mtime) : null;
 
   return (
-    <section className="video-clips">
-      <h2>Clips de Video</h2>
-      {loading && <p>Cargando...</p>}
+    <section className="video-clips-summary">
+      {loading && <p>Cargando videos...</p>}
       {error && <p className="error">Error: {error}</p>}
-      {!loading && !error && videos.length === 0 && <p className="empty">No hay videos disponibles.</p>}
-      {!loading && !error && videos.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Fecha</th>
-              <th>Tamaño</th>
-              <th>Enlace</th>
-            </tr>
-          </thead>
-          <tbody>
-            {videos.map(v => {
-              const date = new Date(v.mtime);
-              return (
-                <tr key={v.name}>
-                  <td>{v.name}</td>
-                  <td>{date.toLocaleString()}</td>
-                  <td>{formatSize(v.size)}</td>
-                  <td><a href={v.url} target="_blank" rel="noreferrer">Ver</a></td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+
+      {!loading && !error && (
+        <div className="summary-card">
+          <div className="summary-header">
+            <div>
+              <div className="summary-title">Videos disponibles</div>
+              <div className="summary-sub">Últimos videos mostrados en las cards</div>
+            </div>
+            <div className="summary-count">{videos.length}</div>
+          </div>
+          {latest && <div className="summary-meta">Última actualización: <strong>{latest.toLocaleString()}</strong></div>}
+          <div className="summary-actions">
+            <a className="btn-link" href="/videos">Abrir carpeta de videos</a>
+          </div>
+        </div>
       )}
     </section>
   );
