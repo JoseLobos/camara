@@ -15,6 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 .group-items {
   display: grid;
@@ -32,8 +33,14 @@
 .filter-bar {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
+  margin: 0 0 12px 0;
   align-items: center;
+  /* stick to top of scrolling container */
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.96);
+  padding: 8px 8px;
+  z-index: 50;
 }
 .filter-button {
   padding: 6px 10px;
